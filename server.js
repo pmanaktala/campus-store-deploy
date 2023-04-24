@@ -31,21 +31,13 @@ app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 
-const __dirname = path.resolve();
-
-console.log(process.env.NODE_ENV === "production");
 if (process.env.NODE_ENV === "production") {
-  console.log("prod");
-
-  app.use(express.static(path.join(__dirname, "/frontend/build")));
+  //*Set static folder up in production
+  app.use(express.static("client/build"));
 
   app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
   );
-} else {
-  app.get("/", (req, res) => {
-    res.send("API is running....");
-  });
 }
 
 app.get("/api/config/paypal", (req, res) =>
